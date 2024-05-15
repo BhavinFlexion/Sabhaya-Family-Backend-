@@ -115,7 +115,6 @@ exports.updateGallery = async (req, res) => {
           return res.status(404).json({ status: false, message: res.__("GALLERY_NOT_FOUND") });
         }
 
-
         if (findGallery.userId !== userId) {
           return res.status(403).json({ status: false, message: res.__("USERCREATEDBY_DOES_NOT_EXIST")});
       }

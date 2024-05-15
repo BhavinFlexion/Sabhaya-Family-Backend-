@@ -79,5 +79,7 @@
 	"SPONSOR_NOT_FOUND": "Sponsor not found",
 	"SPONSORLOGO_NOT_FOUND": "Sponsorlogo not found",
 	"EXPENSE_NOT_FOUND": "Expense not found",
-	"UNAUTHORIZED_TO_CREATE_VILLAGE": "Unauthorized to create a village"
+	"UNAUTHORIZED_TO_CREATE_VILLAGE": "Unauthorized to create a village",
+	"TOKEN_REQUIRED": "Token required",
+	"TOKEN_INVALID": "Token invalid"
 }

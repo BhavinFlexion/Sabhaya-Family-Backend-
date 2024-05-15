@@ -10,6 +10,8 @@ router.post('/create', authValidator.Villageupdate(), villageController.villageC
 
 router.get('/get',villageController.getAllVillage);
 
+router.get('/export',villageController.VillageToExcel);
+
 router.delete('/delete/:id', villageController.deleteVillage);
 
 router.put('/update/:id', villageController.updateVillage);

@@ -4,6 +4,12 @@ const { Op } = require("sequelize");
 
 const User = require('../models/users');
 
+const xlsx = require('xlsx');
+
+const fs = require('fs');
+
+const path = require('path');
+
 const { ROLE_FIELD } = require("../helper/constant");
 
 exports.villageCreate = async (req, res) => {
@@ -21,7 +27,7 @@ exports.villageCreate = async (req, res) => {
         }
     
         const data = await Village.create({
-            village,
+            village,    
             taluka,
             district,
             userId: req.user.id
@@ -70,12 +76,39 @@ try {
         totalPages: Math.ceil(village.count / pageSize),
         currentPage: page,
         data: village,
-    });
+    }); 
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
     }
 }
+
+exports.VillageToExcel = async (req, res) => {
+    try {
+        const villages = await Village.findAll();
+
+        const excelData = villages.map(village => ({
+            Village: village.village,
+            Taluka: village.taluka,
+            District: village.district
+        }));
+
+        const workbook = xlsx.utils.book_new();
+        const worksheet = xlsx.utils.json_to_sheet(excelData);
+        xlsx.utils.book_append_sheet(workbook, worksheet, 'Villages');
+
+        const filePath = path.join(__dirname, '../public/excel/exported.xlsx');
+
+        xlsx.writeFile(workbook, filePath);
+
+        res.download(filePath, 'villages.xlsx', () => {
+            fs.unlinkSync(filePath);
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+};
 
 exports.deleteVillage = async (req, res) => {
     try {
